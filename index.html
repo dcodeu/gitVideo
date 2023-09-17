@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Calculator</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <h1>Simple Calculator</h1>
+    <form id="calculator-form">
+        <label for="num1">First Number:</label>
+        <input type="number" id="num1" name="num1"><br><br>
+
+        <label for="num2">Second Number:</label>
+        <input type="number" id="num2" name="num2"><br><br>
+
+        <label for="operation">Operation:</label>
+        <select id="operation" name="operation">
+            <option value="add">Add</option>
+            <option value="subtract">Subtract</option>
+            <option value="multiply">Multiply</option>
+            <option value="divide">Divide</option>
+        </select><br><br>
+
+        <input type="submit" value="Calculate">
+    </form>
+
+    <p>Result: <span id="result"></span></p>
+
+    <script>
+        $("#calculator-form").submit(function(e) {
+            e.preventDefault();
+            let num1 = $("#num1").val();
+            let num2 = $("#num2").val();
+            let operation = $("#operation").val();
+
+            $.ajax({
+                url: `/calculate?num1=${num1}&num2=${num2}&operation=${operation}`,
+                type: "GET",
+                success: function(data) {
+                    $("#result").text(data.result);
+                },
+                error: function(error) {
+                    console.log("Error:", error);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
